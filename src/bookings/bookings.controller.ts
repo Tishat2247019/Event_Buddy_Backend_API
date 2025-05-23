@@ -16,18 +16,17 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 export class BookingsController {
   constructor(private readonly bookingsService: BookingsService) {}
 
-  // POST /bookings/:eventId
   @Post(':eventId')
   async bookSeats(
     @Request() req,
     @Param('eventId', ParseIntPipe) eventId: number,
     @Body('seats') seats: number,
   ) {
-    const userId = req.user.id;
+    const userId = req.user.userId;
+    // console.log(userId);
     return this.bookingsService.bookSeats(userId, eventId, seats);
   }
 
-  // GET /bookings/mine
   @Get('mine')
   async getMyBookings(@Request() req) {
     const userId = req.user.id;

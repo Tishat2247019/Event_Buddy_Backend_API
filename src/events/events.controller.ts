@@ -48,11 +48,13 @@ export class EventsController {
   @Roles('admin')
   @Post('admin/events')
   create(@Body() dto: CreateEventDto) {
-    const eventData = {
-      ...dto,
-      date: new Date(dto.date),
-    };
-    return this.eventsService.create(eventData);
+    // const eventData = {
+    //   ...dto,
+    //   date: new Date(dto.date),
+    // };
+    // console.log(dto);
+    // console.log(eventData);
+    return this.eventsService.create(dto);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -66,7 +68,6 @@ export class EventsController {
 
     return this.eventsService.update(id, updatedData);
   }
-
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Delete('admin/events/:id')
