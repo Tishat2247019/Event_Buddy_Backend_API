@@ -15,11 +15,11 @@ export class UsersService {
     return this.userRepo.save(user);
   }
 
-  async findByEmail(email: string): Promise<User | undefined> {
+  async findByEmail(email: string): Promise<User | null> {
     return this.userRepo.findOne({ where: { email } });
   }
 
-  async findById(id: number): Promise<User | undefined> {
+  async findById(id: number): Promise<User | null> {
     return this.userRepo.findOne({ where: { id } });
   }
 }
