@@ -71,7 +71,6 @@ export class EventsService {
     });
   }
 
-  //check
   async getAll(): Promise<EventEntity[]> {
     return this.eventRepo.find({
       order: { date: 'DESC' },
