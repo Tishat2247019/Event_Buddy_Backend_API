@@ -1,3 +1,4 @@
+import { Booking } from 'src/bookings/entities/booking.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,7 +7,6 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Booking } from '../bookings/booking.entity';
 
 @Entity('events')
 export class Event {
