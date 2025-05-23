@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, LessThan, MoreThan } from 'typeorm';
 import { EventEntity } from './entities/event.entity';
 import { CreateEventDto } from './dto/create_event.dto';
+import { UpdateEventDto } from './dto/update_event.dto';
 
 @Injectable()
 export class EventsService {
@@ -11,28 +12,41 @@ export class EventsService {
     private readonly eventRepo: Repository<EventEntity>,
   ) {}
 
-  async create(data: CreateEventDto): Promise<EventEntity> {
+  async create(adminId: number, data: CreateEventDto): Promise<EventEntity> {
     const event = this.eventRepo.create({
       ...data,
+      createdBy: adminId,
       date: new Date(data.date),
     });
-    console.log(data);
+    // console.log(data);
     return this.eventRepo.save(event);
   }
 
   async update(
     id: number,
-    data: Partial<EventEntity>,
+    adminId: number,
+    data: UpdateEventDto,
   ): Promise<{ message: string; event: EventEntity }> {
-    await this.eventRepo.update(id, data);
-    const event = await this.findById(id);
+    const event = await this.eventRepo.findOne({ where: { id } });
+
+    if (!event) {
+      throw new NotFoundException(`Event with ID ${id} not found`);
+    }
+
+    Object.assign(event, {
+      ...data,
+      date: data.date ? new Date(data.date) : event.date,
+    });
+    event.updatedBy = adminId;
+    const updatedEvent = await this.eventRepo.save(event);
+
     return {
-      message: `Event with id ${id} successffully updated`,
-      event,
+      message: `Event with id ${id} successfully updated`,
+      event: updatedEvent,
     };
   }
 
-  async delete(id: number) {
+  async delete(id: number): Promise<{ message }> {
     await this.eventRepo.delete(id);
     return { message: 'Event deleted successfully' };
   }
