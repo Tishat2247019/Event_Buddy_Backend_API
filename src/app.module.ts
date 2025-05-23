@@ -6,6 +6,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { EventsModule } from './events/events.module';
+import { BookingsModule } from './bookings/bookings.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { EventsModule } from './events/events.module';
     AuthModule,
     UsersModule,
     EventsModule,
+    BookingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
