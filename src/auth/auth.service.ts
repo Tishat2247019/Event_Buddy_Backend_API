@@ -44,6 +44,8 @@ export class AuthService {
     const payload = { sub: user.id, role: user.role };
     const token = this.jwtService.sign(payload);
 
+    const upLastLogin = this.usersService.upLastLogin(payload.sub, new Date());
+
     return {
       access_token: token,
       user: { id: user.id, email: user.email, role: user.role },
