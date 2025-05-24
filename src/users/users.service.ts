@@ -25,4 +25,7 @@ export class UsersService {
   async upLastLogin(id: number, date: Date) {
     return this.userRepo.update(id, { lastlogin: date });
   }
+  async upLastLogout(id: number, date: Date) {
+    return this.userRepo.update(id, { lastLogout: date });
+  }
 }

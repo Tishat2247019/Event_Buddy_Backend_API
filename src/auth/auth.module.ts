@@ -6,9 +6,12 @@ import { AuthController } from './auth.controller';
 import { UsersModule } from '../users/users.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { BlacklistToken } from './entities/blackListToken.entity';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([BlacklistToken]),
     UsersModule,
     PassportModule,
     JwtModule.registerAsync({

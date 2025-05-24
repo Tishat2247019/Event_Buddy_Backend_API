@@ -4,9 +4,10 @@ import { BookingsController } from './bookings.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Booking } from './entities/booking.entity';
 import { EventEntity } from 'src/events/entities/event.entity';
+import { BlacklistToken } from 'src/auth/entities/blackListToken.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Booking, EventEntity])],
+  imports: [TypeOrmModule.forFeature([Booking, EventEntity, BlacklistToken])],
   controllers: [BookingsController],
   providers: [BookingsService],
 })
