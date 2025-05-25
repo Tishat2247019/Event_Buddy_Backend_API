@@ -13,6 +13,7 @@ import {
 export class Booking {
   @PrimaryGeneratedColumn()
   id: number;
+
   @Column({ nullable: true })
   userId: number;
 
