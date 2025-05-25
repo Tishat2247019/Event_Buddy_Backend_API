@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-=======
-import { timestamp } from 'rxjs';
->>>>>>> main
 import { Booking } from 'src/bookings/entities/booking.entity';
 import {
   Entity,
