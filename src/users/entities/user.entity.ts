@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import { timestamp } from 'rxjs';
+>>>>>>> main
 import { Booking } from 'src/bookings/entities/booking.entity';
 import {
   Entity,
@@ -35,4 +39,10 @@ export class User {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
+
+  @Column({ type: 'timestamp', nullable: true })
+  lastlogin: Date;
+
+  @Column({ type: 'timestamp', nullable: true })
+  lastLogout: Date;
 }

@@ -22,4 +22,10 @@ export class UsersService {
   async findById(id: number): Promise<User | null> {
     return this.userRepo.findOne({ where: { id } });
   }
+  async upLastLogin(id: number, date: Date) {
+    return this.userRepo.update(id, { lastlogin: date });
+  }
+  async upLastLogout(id: number, date: Date) {
+    return this.userRepo.update(id, { lastLogout: date });
+  }
 }
