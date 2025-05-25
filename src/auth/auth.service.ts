@@ -70,7 +70,7 @@ export class AuthService {
       return { message: 'Succesffully logged out' };
     } else {
       return {
-        message: 'Something error in loggin out',
+        message: 'Something error happend in loggin out',
       };
     }
   }

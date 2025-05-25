@@ -8,10 +8,11 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BlacklistToken } from './entities/blackListToken.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([BlacklistToken]),
+    TypeOrmModule.forFeature([BlacklistToken, User]),
     UsersModule,
     PassportModule,
     JwtModule.registerAsync({
