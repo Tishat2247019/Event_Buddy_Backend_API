@@ -77,4 +77,21 @@ export class EventsService {
       relations: ['bookings'],
     });
   }
+
+  async getEventStats(
+    eventId: number,
+  ): Promise<{ remainingSeats: number; totalRegistered: number }> {
+    const event = await this.eventRepo.findOne({
+      where: { id: eventId },
+      relations: ['bookings'],
+    });
+    if (!event) {
+      throw new NotFoundException(`Event with id ${eventId} not found`);
+    }
+    const totalBooked = event.bookings.reduce((sum, b) => sum + b.seats, 0);
+    return {
+      remainingSeats: event.capacity - totalBooked,
+      totalRegistered: totalBooked,
+    };
+  }
 }

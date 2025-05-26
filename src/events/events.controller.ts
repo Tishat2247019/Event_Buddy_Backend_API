@@ -36,6 +36,11 @@ export class EventsController {
     return this.eventsService.findById(id);
   }
 
+  @Get('events/:id/stats')
+  getEventStats(@Param('id') id: number) {
+    return this.eventsService.getEventStats(id);
+  }
+
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Get('admin/events')
