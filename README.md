@@ -1,4 +1,4 @@
-# 1. Event Buddy – Event Management System
+# Event Buddy – Event Management System
 
 Event Buddy is a RESTful backend service for managing and booking event seats. It supports public browsing of events, authenticated user booking, and secure admin event management.
 
