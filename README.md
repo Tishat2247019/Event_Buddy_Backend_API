@@ -48,7 +48,6 @@ src/
 ├── users/          # User entity and profile logic
 ├── events/         # Event CRUD, search, and stats
 ├── bookings/       # Booking logic and user bookings
-├── common/         # DTOs, decorators, constants
 ├── database/       # DB connection config
 └── main.ts         # Entry point
 ```
