@@ -5,12 +5,15 @@ import { EventEntity } from './entities/event.entity';
 import { CreateEventDto } from './dto/create_event.dto';
 import { UpdateEventDto } from './dto/update_event.dto';
 import { PublicEventDto } from './dto/public_event_details.dto';
+import { EventPhoto } from './entities/event_photo.entity';
 
 @Injectable()
 export class EventsService {
   constructor(
     @InjectRepository(EventEntity)
     private readonly eventRepo: Repository<EventEntity>,
+    @InjectRepository(EventPhoto)
+    private readonly photoRepo: Repository<EventPhoto>,
   ) {}
 
   async create(adminId: number, data: CreateEventDto): Promise<EventEntity> {
@@ -83,11 +86,28 @@ export class EventsService {
     });
   }
 
-  async getAll(): Promise<EventEntity[]> {
+  async getAllEventsAdmin(): Promise<EventEntity[]> {
     return this.eventRepo.find({
       order: { date: 'DESC' },
-      relations: ['bookings'],
+      relations: ['bookings', 'photos'],
     });
+  }
+
+  async getAllEventsPublic(): Promise<PublicEventDto[]> {
+    const events = await this.eventRepo.find({
+      order: { date: 'DESC' },
+    });
+
+    return events.map((event) => ({
+      id: event.id,
+      name: event.name,
+      description: event.description,
+      date: event.date,
+      capacity: event.capacity,
+      location: event.location,
+      createdAt: event.createdAt,
+      updatedAt: event.updatedAt,
+    }));
   }
 
   async getEventStats(
@@ -129,5 +149,10 @@ export class EventsService {
       createdAt: event.createdAt,
       updatedAt: event.updatedAt,
     }));
+  }
+
+  async addPhoto(eventId: number, photoPath: string): Promise<EventPhoto> {
+    const photo = this.photoRepo.create({ eventId, url: photoPath });
+    return this.photoRepo.save(photo);
   }
 }

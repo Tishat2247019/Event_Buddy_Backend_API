@@ -37,4 +37,20 @@ export class UpdateEventDto {
   @ValidateNested()
   @Type(() => eventLocationUpdateDto)
   location?: eventLocationUpdateDto;
+
+  @ApiPropertyOptional({
+    example: '09:00 - 11:00',
+    description: 'Time range of the event',
+  })
+  @IsOptional()
+  @IsString()
+  timeSlot?: string;
+
+  @ApiPropertyOptional({
+    example: 'tech,conference,networking',
+    description: 'Comma-separated tags',
+  })
+  @IsOptional()
+  @IsString()
+  tags?: string;
 }

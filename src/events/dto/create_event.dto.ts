@@ -49,4 +49,20 @@ export class CreateEventDto {
   @Type(() => eventLocationDto)
   @IsNotEmpty()
   location: eventLocationDto;
+
+  @ApiProperty({
+    example: '09:00 - 11:00',
+    description: 'Event time slot (e.g., 09:00 - 11:00)',
+  })
+  @IsNotEmpty()
+  @IsString()
+  timeSlot: string;
+
+  @ApiProperty({
+    example: 'tech,conference,2025',
+    description: 'Comma-separated tags',
+  })
+  @IsString()
+  @IsNotEmpty()
+  tags: string;
 }

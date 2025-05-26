@@ -10,6 +10,8 @@ import {
   Request,
   ParseIntPipe,
   Query,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create_event.dto';
@@ -24,9 +26,14 @@ import {
   ApiBearerAuth,
   ApiParam,
   ApiBody,
+  ApiConsumes,
 } from '@nestjs/swagger';
 import { EventEntity } from './entities/event.entity';
 import { PublicEventDto } from './dto/public_event_details.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+import { EventPhoto } from './entities/event_photo.entity';
 
 @ApiTags('Events')
 @Controller()
@@ -97,8 +104,19 @@ export class EventsController {
     description: 'All events returned',
     type: [EventEntity],
   })
-  getAll() {
-    return this.eventsService.getAll();
+  getAllAdmin() {
+    return this.eventsService.getAllEventsAdmin();
+  }
+
+  @Get('public/events')
+  @ApiOperation({ summary: 'Get all events (Public)' })
+  @ApiResponse({
+    status: 200,
+    description: 'All public events returned',
+    type: [PublicEventDto],
+  })
+  getAllPublic(): Promise<PublicEventDto[]> {
+    return this.eventsService.getAllEventsPublic();
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
@@ -151,5 +169,35 @@ export class EventsController {
   @ApiResponse({ status: 404, description: 'Event not found' })
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.eventsService.delete(id);
+  }
+
+  @Post('admin/:eventId/photos')
+  @Roles('admin')
+  @UseInterceptors(
+    FileInterceptor('photo', {
+      storage: diskStorage({
+        destination: './uploads/events',
+        filename: (req, file, cb) => {
+          const uniqueSuffix =
+            Date.now() + '-' + Math.round(Math.random() * 1e9);
+          cb(null, `event-${uniqueSuffix}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+  )
+  @ApiConsumes('multipart/form-data')
+  @ApiOperation({ summary: 'Upload a photo for an event (Admin only)' })
+  @ApiResponse({
+    status: 201,
+    description: 'Photo uploaded successfully',
+    type: EventPhoto,
+  })
+  @ApiParam({ name: 'eventId', type: Number })
+  async uploadPhoto(
+    @Param('eventId', ParseIntPipe) eventId: number,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const path = `uploads/events/${file.filename}`;
+    return this.eventsService.addPhoto(eventId, path);
   }
 }

@@ -11,6 +11,7 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
+import { EventPhoto } from './event_photo.entity';
 
 export class Location {
   @ApiProperty({ example: 'Dhaka' })
@@ -65,11 +66,39 @@ export class EventEntity {
   @Column(() => Location)
   location: Location;
 
-  @ApiHideProperty()
   // @ApiProperty({
-  //   type: () => [Booking],
-  //   description: 'List of bookings for the event',
+  //   example: 'events/uploads/photo123.jpg',
+  //   description: 'Relative path to the event photo',
   // })
+  // @Column({ nullable: true })
+  // eventPhoto: string;
+
+  @ApiProperty({
+    type: () => [EventPhoto],
+    description: 'List of photos for the event',
+  })
+  @OneToMany(() => EventPhoto, (photo) => photo.event, { cascade: true })
+  photos: EventPhoto[];
+
+  @ApiProperty({
+    example: 'tech,conference,2025',
+    description: 'Comma-separated tags for the event',
+  })
+  @Column({ nullable: true })
+  tags: string;
+
+  @ApiProperty({
+    example: '09:00 - 11:00',
+    description: 'Event time slot',
+  })
+  @Column({ nullable: true })
+  timeSlot: string;
+
+  // @ApiHideProperty()
+  @ApiProperty({
+    type: () => [Booking],
+    description: 'List of bookings for the event',
+  })
   @OneToMany(() => Booking, (booking) => booking.event)
   bookings: Booking[];
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Location } from '../entities/event.entity'; // Adjust path as needed
+import { Location } from '../entities/event.entity';
 
 export class PublicEventDto {
   @ApiProperty({ example: 1, description: 'Unique identifier for the event' })
