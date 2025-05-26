@@ -127,8 +127,8 @@ http://localhost:3000/api
 You can manually insert an admin via seed or SQL:
 
 ```
-INSERT INTO users (name, email, password, role)
-VALUES ('Admin', 'admin@example.com', '<hashed-password>', 'admin');
+INSERT INTO public.users (name, email, password, role)
+VALUES ('Admin', 'admin@example.com', 'password', 'admin');
 ```
 
 # 📦 Future Improvements
