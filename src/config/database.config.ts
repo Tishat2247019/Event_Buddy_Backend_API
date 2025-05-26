@@ -1,4 +1,3 @@
-// src/config/database.config.ts
 import { TypeOrmModuleAsyncOptions } from '@nestjs/typeorm';
 import { ConfigService } from '@nestjs/config';
 import * as path from 'path';

@@ -36,7 +36,7 @@ export class EventsController {
   @ApiResponse({
     status: 200,
     description: 'Upcoming events list returned',
-    type: [EventEntity], // specify that this returns an array of EventEntity
+    type: [EventEntity],
   })
   getUpcoming() {
     return this.eventsService.getUpcoming();

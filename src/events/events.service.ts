@@ -33,15 +33,12 @@ export class EventsService {
       throw new NotFoundException(`Event with ID ${id} not found`);
     }
 
-    // Handle location merging for JSON column
     if (data.location) {
       event.location = {
-        ...(event.location ?? {}), // existing full location or empty
-        ...data.location, // only updated fields
+        ...(event.location ?? {}),
+        ...data.location,
       };
     }
-
-    // Handle other fields (excluding location)
     const { location, ...rest } = data;
     Object.assign(event, {
       ...rest,
