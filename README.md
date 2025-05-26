@@ -142,7 +142,7 @@ VALUES ('Admin', 'admin@example.com', 'password', 'admin');
 
 # Databae Schema Design
 
-![Database Schema](https://github.com/user-attachments/assets/ed2299c0-cf16-4b01-8cda-b814671e55cb)
+![Database Schema](https://github.com/user-attachments/assets/ba25dc72-ef59-4c47-bddf-90f087500926)
 
 # Future Improvements
 
