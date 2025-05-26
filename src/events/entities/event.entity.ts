@@ -14,6 +14,12 @@ import {
   JoinColumn,
 } from 'typeorm';
 
+class Location {
+  city: string;
+  street: string;
+  postalCode: string;
+}
+
 @Entity('events')
 export class EventEntity {
   @PrimaryGeneratedColumn()
@@ -30,6 +36,9 @@ export class EventEntity {
 
   @Column()
   capacity: number;
+
+  @Column({ type: 'json', nullable: true })
+  location: Location;
 
   @OneToMany(() => Booking, (booking) => booking.event)
   bookings: Booking[];
