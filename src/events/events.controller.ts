@@ -24,6 +24,7 @@ import {
   ApiParam,
   ApiBody,
 } from '@nestjs/swagger';
+import { EventEntity } from './entities/event.entity';
 
 @ApiTags('Events')
 @Controller()
@@ -32,14 +33,22 @@ export class EventsController {
 
   @Get('events/upcoming')
   @ApiOperation({ summary: 'Get upcoming events' })
-  @ApiResponse({ status: 200, description: 'Upcoming events list returned' })
+  @ApiResponse({
+    status: 200,
+    description: 'Upcoming events list returned',
+    type: [EventEntity], // specify that this returns an array of EventEntity
+  })
   getUpcoming() {
     return this.eventsService.getUpcoming();
   }
 
   @Get('events/previous')
   @ApiOperation({ summary: 'Get past events' })
-  @ApiResponse({ status: 200, description: 'Previous events list returned' })
+  @ApiResponse({
+    status: 200,
+    description: 'Previous events list returned',
+    type: [EventEntity],
+  })
   getPrevious() {
     return this.eventsService.getPrevious();
   }
@@ -47,7 +56,11 @@ export class EventsController {
   @Get('events/:id')
   @ApiOperation({ summary: 'Get details of a single event by ID' })
   @ApiParam({ name: 'id', type: Number })
-  @ApiResponse({ status: 200, description: 'Event found' })
+  @ApiResponse({
+    status: 200,
+    description: 'Event found',
+    type: EventEntity,
+  })
   @ApiResponse({ status: 404, description: 'Event not found' })
   getEvent(@Param('id', ParseIntPipe) id: number) {
     return this.eventsService.findById(id);
@@ -66,7 +79,11 @@ export class EventsController {
   @ApiBearerAuth()
   @Get('admin/events')
   @ApiOperation({ summary: 'Get all events (Admin only)' })
-  @ApiResponse({ status: 200, description: 'All events returned' })
+  @ApiResponse({
+    status: 200,
+    description: 'All events returned',
+    type: [EventEntity],
+  })
   getAll() {
     return this.eventsService.getAll();
   }
@@ -77,11 +94,15 @@ export class EventsController {
   @Post('admin/events')
   @ApiOperation({ summary: 'Create a new event (Admin only)' })
   @ApiBody({ type: CreateEventDto })
-  @ApiResponse({ status: 201, description: 'Event created successfully' })
+  @ApiResponse({
+    status: 201,
+    description: 'Event created successfully',
+    type: EventEntity,
+  })
   @ApiResponse({ status: 400, description: 'Validation error' })
   create(@Request() req, @Body() dto: CreateEventDto) {
     const adminId = req.user.userId;
-    // console.log(adminId)
+    // console.log(adminId);
     return this.eventsService.create(adminId, dto);
   }
 
@@ -92,7 +113,11 @@ export class EventsController {
   @ApiOperation({ summary: 'Update an existing event (Admin only)' })
   @ApiParam({ name: 'id', type: Number })
   @ApiBody({ type: UpdateEventDto })
-  @ApiResponse({ status: 200, description: 'Event updated successfully' })
+  @ApiResponse({
+    status: 200,
+    description: 'Event updated successfully',
+    type: EventEntity,
+  })
   @ApiResponse({ status: 404, description: 'Event not found' })
   update(
     @Request() req,
