@@ -7,6 +7,7 @@ import {
   Param,
   Body,
   UseGuards,
+  Request,
   ParseIntPipe,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
@@ -14,13 +15,12 @@ import { CreateEventDto } from './dto/create_event.dto';
 import { UpdateEventDto } from './dto/update_event.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
-import { Roles } from 'src/auth/guards/decorators/roles.decorator';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @Controller()
 export class EventsController {
   constructor(private readonly eventsService: EventsService) {}
 
-  // 🟢 Public APIs
   @Get('events/upcoming')
   getUpcoming() {
     return this.eventsService.getUpcoming();
@@ -36,7 +36,6 @@ export class EventsController {
     return this.eventsService.findById(id);
   }
 
-  // 🔐 Admin APIs
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Get('admin/events')
@@ -47,26 +46,33 @@ export class EventsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Post('admin/events')
-  create(@Body() dto: CreateEventDto) {
-    const eventData = {
-      ...dto,
-      date: new Date(dto.date),
-    };
-    return this.eventsService.create(eventData);
+  create(@Request() req, @Body() dto: CreateEventDto) {
+    // const eventData = {
+    //   ...dto,
+    //   date: new Date(dto.date),
+    // };
+    // console.log(dto);
+    // console.log(eventData);
+    const adminId = req.user.userId;
+    return this.eventsService.create(adminId, dto);
   }
 
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Patch('admin/events/:id')
-  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateEventDto) {
-    const updatedData = {
-      ...dto,
-      date: dto.date ? new Date(dto.date) : undefined,
-    };
+  update(
+    @Request() req,
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateEventDto,
+  ) {
+    const adminId = req.user.userId;
+    // const updatedData = {
+    //   ...dto,
+    //   date: dto.date ? new Date(dto.date) : undefined,
+    // };
 
-    return this.eventsService.update(id, updatedData);
+    return this.eventsService.update(id, adminId, dto);
   }
-
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles('admin')
   @Delete('admin/events/:id')

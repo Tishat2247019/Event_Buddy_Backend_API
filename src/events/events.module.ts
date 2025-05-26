@@ -2,12 +2,13 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EventsService } from './events.service';
 import { EventsController } from './events.controller';
-import { Event } from './entities/event.entity';
+import { EventEntity } from './entities/event.entity';
+import { BlacklistToken } from 'src/auth/entities/blackListToken.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Event])],
+  imports: [TypeOrmModule.forFeature([EventEntity, BlacklistToken])],
   controllers: [EventsController],
   providers: [EventsService],
-  exports: [EventsService, TypeOrmModule],
+  exports: [EventsService, TypeOrmModule.forFeature([EventEntity])],
 })
 export class EventsModule {}

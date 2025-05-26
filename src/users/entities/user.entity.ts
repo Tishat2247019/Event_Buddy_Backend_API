@@ -1,3 +1,5 @@
+import { timestamp } from 'rxjs';
+import { Booking } from 'src/bookings/entities/booking.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -6,7 +8,6 @@ import {
   UpdateDateColumn,
   OneToMany,
 } from 'typeorm';
-import { Booking } from '../bookings/booking.entity';
 
 export type UserRole = 'user' | 'admin';
 
@@ -35,4 +36,10 @@ export class User {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: Date;
+
+  @Column({ type: 'timestamp', nullable: true })
+  lastlogin: Date;
+
+  @Column({ type: 'timestamp', nullable: true })
+  lastLogout: Date;
 }
