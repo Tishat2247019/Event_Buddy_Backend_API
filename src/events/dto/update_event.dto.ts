@@ -1,3 +1,4 @@
+import { ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsOptional,
   IsString,
@@ -10,23 +11,28 @@ import { Type } from 'class-transformer';
 import { LocationDto } from './event_location.dto';
 
 export class UpdateEventDto {
+  @ApiPropertyOptional({ example: 'Updated Event Name' })
   @IsOptional()
   @IsString()
   name?: string;
 
+  @ApiPropertyOptional({ example: 'Updated event description' })
   @IsOptional()
   @IsString()
   description?: string;
 
+  @ApiPropertyOptional({ example: '2025-09-10T15:00:00Z' })
   @IsOptional()
   @IsDateString()
   date?: string;
 
+  @ApiPropertyOptional({ example: 150 })
   @IsOptional()
   @IsInt()
   @Min(1)
   capacity?: number;
 
+  @ApiPropertyOptional({ type: LocationDto })
   @IsOptional()
   @ValidateNested()
   @Type(() => LocationDto)

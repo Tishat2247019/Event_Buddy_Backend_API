@@ -47,6 +47,10 @@ export class Booking {
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: Date;
 
+  @ApiProperty({
+    example: '2025-05-26T10:20:30Z',
+    description: 'Update Booking timestamp',
+  })
   @UpdateDateColumn({ type: 'timestamp', default: null })
   updatedAt: Date;
 }
