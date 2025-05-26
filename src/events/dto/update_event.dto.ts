@@ -8,7 +8,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { LocationDto } from './event_location.dto';
+import { eventLocationUpdateDto } from './update_event_location.dto';
 
 export class UpdateEventDto {
   @ApiPropertyOptional({ example: 'Updated Event Name' })
@@ -32,9 +32,9 @@ export class UpdateEventDto {
   @Min(1)
   capacity?: number;
 
-  @ApiPropertyOptional({ type: LocationDto })
+  @ApiPropertyOptional({ type: eventLocationUpdateDto })
   @IsOptional()
   @ValidateNested()
-  @Type(() => LocationDto)
-  location?: LocationDto;
+  @Type(() => eventLocationUpdateDto)
+  location?: eventLocationUpdateDto;
 }

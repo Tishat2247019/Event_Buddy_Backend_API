@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
 
-export class LocationDto {
+export class eventLocationDto {
   @ApiProperty({ example: 'Dhaka', description: 'City of the event location' })
   @IsString()
   city: string;

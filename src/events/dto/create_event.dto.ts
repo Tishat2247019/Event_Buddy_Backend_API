@@ -8,7 +8,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { LocationDto } from './event_location.dto';
+import { eventLocationDto } from './event_location.dto';
 
 export class CreateEventDto {
   @ApiProperty({ example: 'Tech Conference 2025', description: 'Event name' })
@@ -42,11 +42,11 @@ export class CreateEventDto {
   capacity: number;
 
   @ApiProperty({
-    type: LocationDto,
+    type: eventLocationDto,
     description: 'Location details of the event',
   })
   @ValidateNested()
-  @Type(() => LocationDto)
+  @Type(() => eventLocationDto)
   @IsNotEmpty()
-  location: LocationDto;
+  location: eventLocationDto;
 }

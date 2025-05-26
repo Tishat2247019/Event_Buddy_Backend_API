@@ -48,7 +48,7 @@ export class EventsService {
 
   async delete(id: number): Promise<{ message }> {
     await this.eventRepo.delete(id);
-    return { message: 'Event deleted successfully' };
+    return { message: `Event with id ${id} deleted successfully` };
   }
 
   async findById(id: number): Promise<EventEntity> {
