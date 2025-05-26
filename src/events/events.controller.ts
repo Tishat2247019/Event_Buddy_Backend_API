@@ -9,6 +9,7 @@ import {
   UseGuards,
   Request,
   ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create_event.dto';
@@ -25,6 +26,7 @@ import {
   ApiBody,
 } from '@nestjs/swagger';
 import { EventEntity } from './entities/event.entity';
+import { PublicEventDto } from './dto/public_event_details.dto';
 
 @ApiTags('Events')
 @Controller()
@@ -51,6 +53,17 @@ export class EventsController {
   })
   getPrevious() {
     return this.eventsService.getPrevious();
+  }
+
+  @Get('events/search')
+  @ApiOperation({ summary: 'Search events by name or description (public)' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of events matching search query',
+    type: [PublicEventDto],
+  })
+  searchEvents(@Query('q') q: string) {
+    return this.eventsService.searchEvents(q);
   }
 
   @Get('events/:id')

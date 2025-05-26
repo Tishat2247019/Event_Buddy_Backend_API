@@ -1,6 +1,6 @@
 import { Booking } from 'src/bookings/entities/booking.entity';
 import { User } from 'src/users/entities/user.entity';
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiHideProperty, ApiProperty } from '@nestjs/swagger';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -65,10 +65,11 @@ export class EventEntity {
   @Column(() => Location)
   location: Location;
 
-  @ApiProperty({
-    type: () => [Booking],
-    description: 'List of bookings for the event',
-  })
+  @ApiHideProperty()
+  // @ApiProperty({
+  //   type: () => [Booking],
+  //   description: 'List of bookings for the event',
+  // })
   @OneToMany(() => Booking, (booking) => booking.event)
   bookings: Booking[];
 

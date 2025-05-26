@@ -4,6 +4,7 @@ import { Repository, LessThan, MoreThan } from 'typeorm';
 import { EventEntity } from './entities/event.entity';
 import { CreateEventDto } from './dto/create_event.dto';
 import { UpdateEventDto } from './dto/update_event.dto';
+import { PublicEventDto } from './dto/public_event_details.dto';
 
 @Injectable()
 export class EventsService {
@@ -104,5 +105,29 @@ export class EventsService {
       remainingSeats: event.capacity - totalBooked,
       totalRegistered: totalBooked,
     };
+  }
+
+  async searchEvents(query: string): Promise<PublicEventDto[]> {
+    if (!query) {
+      return [];
+    }
+
+    const events = await this.eventRepo
+      .createQueryBuilder('event')
+      .where('event.name ILIKE :q OR event.description ILIKE :q', {
+        q: `%${query}%`,
+      })
+      .getMany();
+
+    return events.map((event) => ({
+      id: event.id,
+      name: event.name,
+      description: event.description,
+      date: event.date,
+      capacity: event.capacity,
+      location: event.location,
+      createdAt: event.createdAt,
+      updatedAt: event.updatedAt,
+    }));
   }
 }
