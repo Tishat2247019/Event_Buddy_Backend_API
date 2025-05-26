@@ -73,7 +73,7 @@ npm install
 
 ## 3. Configure environment variables
 
-Copy `.env.example` and create a `.env` file with actual credentials:
+Copy `.env.example` (will be found in the root directory) and create a `.env` file with actual credentials:
 
 ```
 DB_HOST=database_hostname
@@ -82,7 +82,7 @@ DB_USERNAME=give_your_database_username
 DB_PASSWORD=give_your_database_password
 DB_NAME=give_your_database_name
 JWT_SECRET=give_jwt_secret_key
-JWT_EXPIRES_IN=jgive_wt_expires_time
+JWT_EXPIRES_IN=give_jwt_expires_time
 ```
 
 ## 4. Set up PostgreSQL
