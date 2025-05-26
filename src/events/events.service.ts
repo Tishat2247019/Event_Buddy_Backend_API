@@ -33,16 +33,30 @@ export class EventsService {
       throw new NotFoundException(`Event with ID ${id} not found`);
     }
 
+    // Handle location merging for JSON column
+    if (data.location) {
+      event.location = {
+        ...(event.location ?? {}), // existing full location or empty
+        ...data.location, // only updated fields
+      };
+    }
+
+    // Handle other fields (excluding location)
+    const { location, ...rest } = data;
     Object.assign(event, {
-      ...data,
+      ...rest,
       date: data.date ? new Date(data.date) : event.date,
     });
+
     event.updatedBy = adminId;
-    const updatedEvent = await this.eventRepo.save(event);
+
+    await this.eventRepo.save(event);
+
+    const completeEvent = await this.eventRepo.findOne({ where: { id } });
 
     return {
       message: `Event with id ${id} successfully updated`,
-      event: updatedEvent,
+      event: completeEvent!,
     };
   }
 

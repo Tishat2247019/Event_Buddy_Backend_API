@@ -12,15 +12,18 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-class Location {
+export class Location {
   @ApiProperty({ example: 'Dhaka' })
-  city: string;
+  @Column({ nullable: true })
+  city?: string;
 
-  @ApiProperty({ example: '123 Main St' })
-  street: string;
+  @ApiProperty({ example: 'Main Street' })
+  @Column({ nullable: true })
+  street?: string;
 
   @ApiProperty({ example: '1207' })
-  postalCode: string;
+  @Column({ nullable: true })
+  postalCode?: string;
 }
 
 @Entity('events')
@@ -59,7 +62,7 @@ export class EventEntity {
     description: 'Location of the event',
     required: false,
   })
-  @Column({ type: 'json', nullable: true })
+  @Column(() => Location)
   location: Location;
 
   @ApiProperty({
