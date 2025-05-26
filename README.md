@@ -140,6 +140,10 @@ INSERT INTO public.users (name, email, password, role)
 VALUES ('Admin', 'admin@example.com', 'password', 'admin');
 ```
 
+# Databae Schema Design
+
+![Database Schema](https://github.com/user-attachments/assets/ed2299c0-cf16-4b01-8cda-b814671e55cb)
+
 # Future Improvements
 
 - Email confirmations for bookings
