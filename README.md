@@ -57,8 +57,8 @@ src/
 ## 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/event-buddy-backend.git
-cd event-buddy-backend
+git clone https://github.com/Tishat2247019/Event_Buddy_Backend_API.git
+cd Event_Buddy_Backend_API
 ```
 
 ## 2. Install dependencies
@@ -121,3 +121,22 @@ http://localhost:3000/api
 - ❌ No overbooking (capacity enforced)
 
 - ❌ Max 4 seats per user per event
+
+# 🧪 Sample Admin Credentials
+
+You can manually insert an admin via seed or SQL:
+
+```
+INSERT INTO users (name, email, password, role)
+VALUES ('Admin', 'admin@example.com', '<hashed-password>', 'admin');
+```
+
+# 📦 Future Improvements
+
+- Email confirmations for bookings
+
+- Pagination and filtering for event lists
+
+- Event image uploads
+
+- Admin dashboard analytics
