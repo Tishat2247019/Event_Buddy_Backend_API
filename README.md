@@ -16,7 +16,7 @@ Event Buddy is a RESTful backend service for managing and booking event seats. I
 
 ### User APIs (JWT Auth Required)
 
-- Register & login
+- Register & login & logout
 - Book seats for future events (1–4 max)
 - View logged in users booked events
 - Cancel logged in users booked events
@@ -51,9 +51,10 @@ src/
 ├── events/         # Event CRUD, search, and stats
 ├── bookings/       # Booking logic and user bookings
 ├── config/         # DB connection config
-├── uploads/        # static file management(Event photo upload)
-├── postman/        # Postman API collection json file
 └── main.ts         # Entry point
+uploads/            # Static file management (Event photo upload)
+postman/            # Postman API collection JSON file
+
 ```
 
 # Setup Instructions
