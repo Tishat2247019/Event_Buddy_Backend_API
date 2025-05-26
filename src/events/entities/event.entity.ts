@@ -1,5 +1,7 @@
 import { Booking } from 'src/bookings/entities/booking.entity';
 import { User } from 'src/users/entities/user.entity';
+import { ApiProperty } from '@nestjs/swagger';
+
 import {
   Entity,
   PrimaryGeneratedColumn,
