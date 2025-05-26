@@ -1,8 +1,5 @@
 import { Booking } from 'src/bookings/entities/booking.entity';
-<<<<<<< HEAD
-=======
 import { User } from 'src/users/entities/user.entity';
->>>>>>> main
 import {
   Entity,
   PrimaryGeneratedColumn,

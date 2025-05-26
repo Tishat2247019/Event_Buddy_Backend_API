@@ -48,17 +48,13 @@ export class BookingsService {
       .filter((b) => b.userId === userId)
       .reduce((sum, b) => sum + b.seats, 0);
 
+    // console.log(userSeatsBooked);
+
     if (userSeatsBooked + seats > 4) {
       throw new BadRequestException(
         `You have already booked ${userSeatsBooked} seat(s). You can only book a total of 4 seats per event.`,
       );
     }
-
-    const booking = this.bookingRepo.create({
-      userId,
-      eventId,
-      seats,
-    });
 
     // const booking = this.bookingRepo.create({
     //   user: { id: userId },
@@ -66,7 +62,28 @@ export class BookingsService {
     //   seats,
     // });
 
-    return this.bookingRepo.save(booking);
+    const existingBooking = await this.bookingRepo.findOne({
+      where: { user: { id: userId }, event: { id: eventId } },
+    });
+
+    if (existingBooking) {
+      const oldTotalBookedSeats = existingBooking.seats;
+      existingBooking.seats += seats;
+      const updatedBooking = await this.bookingRepo.save(existingBooking);
+      return {
+        message: 'Booking updated',
+        oldTotalSeats: oldTotalBookedSeats,
+        newTotalSeats: updatedBooking.seats,
+        booking: updatedBooking,
+      };
+    } else {
+      const newBooking = this.bookingRepo.create({
+        userId,
+        eventId,
+        seats,
+      });
+      return this.bookingRepo.save(newBooking);
+    }
   }
 
   async getMyBookings(userId: number) {
