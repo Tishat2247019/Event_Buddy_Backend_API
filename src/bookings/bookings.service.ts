@@ -2,6 +2,7 @@ import {
   Injectable,
   BadRequestException,
   NotFoundException,
+  ForbiddenException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -92,5 +93,27 @@ export class BookingsService {
       relations: ['event'],
       order: { createdAt: 'DESC' },
     });
+  }
+  async cancelBooking(
+    userId: number,
+    bookingId: number,
+  ): Promise<{ message: string }> {
+    const booking = await this.bookingRepo.findOne({
+      where: { id: bookingId },
+      relations: ['user'],
+    });
+
+    if (!booking) {
+      throw new NotFoundException('Booking not found');
+    }
+
+    if (booking.user.id !== userId) {
+      throw new ForbiddenException(
+        'You are not authorized to cancel this booking',
+      );
+    }
+
+    await this.bookingRepo.remove(booking);
+    return { message: 'Booking cancelled successfully' };
   }
 }

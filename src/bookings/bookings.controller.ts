@@ -7,6 +7,7 @@ import {
   Request,
   Param,
   ParseIntPipe,
+  Delete,
 } from '@nestjs/common';
 import { BookingsService } from './bookings.service';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
@@ -69,5 +70,25 @@ export class BookingsController {
   async getMyBookings(@Request() req) {
     const userId = req.user.id;
     return this.bookingsService.getMyBookings(userId);
+  }
+
+  @Roles('admin', 'user')
+  @Delete(':bookingId')
+  @ApiOperation({ summary: 'Cancel a booking made by the logged-in user' })
+  @ApiParam({
+    name: 'bookingId',
+    type: Number,
+    description: 'ID of the booking to cancel',
+  })
+  @ApiResponse({ status: 200, description: 'Booking cancelled successfully' })
+  @ApiResponse({ status: 401, description: 'Unauthorized access' })
+  @ApiResponse({ status: 403, description: 'Forbidden - Not owner of booking' })
+  @ApiResponse({ status: 404, description: 'Booking not found' })
+  async cancelBooking(
+    @Request() req,
+    @Param('bookingId', ParseIntPipe) bookingId: number,
+  ) {
+    const userId = req.user.userId;
+    return this.bookingsService.cancelBooking(userId, bookingId);
   }
 }
